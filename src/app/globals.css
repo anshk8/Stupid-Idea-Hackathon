@@ -1,18 +1,135 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7fff0;
+  --foreground: #1a2e05;
+  --ink: #1a2e05;
+  --ink-muted: #4d6a2d;
+  --lingo: #58cc02;
+  --lingo-dark: #3d9a00;
+  --cream: #eef9e0;
+  --card-shadow: 0 8px 0 rgba(26, 46, 5, 0.12);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-lingo: var(--lingo);
+  --color-lingo-dark: var(--lingo-dark);
+  --color-cream: var(--cream);
+  --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fredoka), var(--font-nunito), ui-sans-serif, sans-serif;
+  --shadow-card: var(--card-shadow);
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(88, 204, 2, 0.18), transparent),
+    var(--background);
   color: var(--foreground);
+  min-height: 100svh;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  background: var(--lingo);
+  color: white;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.125rem;
+  padding: 0.9rem 1.25rem;
+  border-bottom: 4px solid var(--lingo-dark);
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+.btn-primary:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  background: white;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.125rem;
+  padding: 0.9rem 1.25rem;
+  border: 2px solid rgba(26, 46, 5, 0.15);
+  border-bottom-width: 4px;
+  transition: transform 120ms ease, background 120ms ease;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--cream);
+}
+
+.btn-secondary:active:not(:disabled) {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+.btn-secondary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-speaker {
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 9999px;
+  background: var(--lingo);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-bottom: 5px solid var(--lingo-dark);
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+.btn-speaker:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
+.btn-speaker:active:not(:disabled) {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+.btn-speaker:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.45s ease-out both;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
 }
