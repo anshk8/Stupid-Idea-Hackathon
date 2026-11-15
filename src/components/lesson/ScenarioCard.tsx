@@ -12,7 +12,8 @@ type Props = {
   speaking: boolean;
   supported: boolean;
   error: string | null;
-  onOption: (option: ScenarioOption) => void;
+  onSelect: (option: ScenarioOption) => void;
+  onCheck: () => void;
   onSpeak: () => void;
 };
 
@@ -24,85 +25,102 @@ export function ScenarioCard({
   speaking,
   supported,
   error,
-  onOption,
+  onSelect,
+  onCheck,
   onSpeak,
 }: Props) {
   return (
-    <>
-      <p className="mb-2 text-center text-xs font-bold tracking-wide text-lingo-dark uppercase">
-        Real-life scenario
-      </p>
-      <p className="mb-5 text-center text-base leading-relaxed text-ink-muted md:text-lg">
-        {phrase.scenario}
-      </p>
-
-      <ul className="mb-5 flex flex-col gap-3">
-        {phrase.options!.map((option) => {
-          const selected = selectedId === option.id;
-          const isCorrect = option.tone === "mean";
-          let styles =
-            "border-ink/15 bg-white hover:border-lingo hover:bg-cream";
-
-          if (solved && isCorrect) {
-            styles = "border-lingo bg-lingo/15 text-lingo-dark";
-          } else if (selected && !isCorrect) {
-            styles = "border-amber-400 bg-amber-50";
-          } else if (solved) {
-            styles = "border-ink/10 bg-ink/5 opacity-50";
-          }
-
-          return (
-            <li key={option.id}>
-              <button
-                type="button"
-                onClick={() => onOption(option)}
-                disabled={solved}
-                className={`w-full rounded-2xl border-2 px-4 py-3 text-left transition ${styles}`}
-              >
-                <span className="block font-display text-base font-bold md:text-lg">
-                  {option.french}
-                </span>
-                <span className="mt-0.5 block text-sm font-semibold text-ink-muted">
-                  {option.english}
-                </span>
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-
-      {feedback ? (
-        <p
-          className="mb-4 text-center text-sm font-bold text-lingo-dark"
-          role="status"
-        >
-          {feedback}
+    <div className="grid gap-6 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] md:items-start md:gap-8">
+      <aside className="rounded-2xl border-2 border-edge bg-snow p-5 md:sticky md:top-4">
+        <p className="mb-2 text-xs font-extrabold tracking-[0.12em] text-ink-muted uppercase">
+          Pronunciation
         </p>
-      ) : null}
+        <p className="mb-4 font-display text-2xl font-extrabold text-ink">
+          {phrase.frenchTranslation}
+        </p>
+        <HearPronunciationButton
+          speaking={speaking}
+          supported={supported}
+          onClick={onSpeak}
+          disabled={!solved}
+        />
+        <p className="mt-3 min-h-5 text-sm font-bold text-[#ff9600]" role="status">
+          {!solved
+            ? "Pick the right reply to unlock listen."
+            : (error ?? "")}
+        </p>
+      </aside>
 
-      {solved ? (
-        <>
-          <div className="mb-6 rounded-2xl bg-cream px-4 py-5 text-center animate-fade-up">
-            <p className="mb-1 text-xs font-bold tracking-wide text-ink-muted uppercase">
-              French
-            </p>
-            <p className="font-display text-2xl font-bold text-lingo-dark md:text-3xl">
-              {phrase.frenchTranslation}
-            </p>
-          </div>
-          <HearPronunciationButton
-            speaking={speaking}
-            supported={supported}
-            onClick={onSpeak}
-          />
+      <div>
+        <p className="mb-2 text-sm font-extrabold tracking-[0.12em] text-ink-muted uppercase">
+          Choose the best reply
+        </p>
+        <p className="mb-5 text-xl font-extrabold leading-snug text-ink">
+          {phrase.scenario}
+        </p>
+
+        <ul className="mb-4 flex flex-col gap-3">
+          {phrase.options!.map((option) => {
+            const selected = selectedId === option.id;
+            const isCorrect = option.tone === "mean";
+
+            let styles =
+              "border-edge bg-white hover:bg-snow";
+            if (solved && isCorrect) {
+              styles = "border-lingo bg-[#d7ffb8]";
+            } else if (solved) {
+              styles = "border-edge bg-white opacity-45";
+            } else if (selected && feedback && !isCorrect) {
+              styles = "border-wrong bg-[#ffdfe0]";
+            } else if (selected) {
+              styles = "border-duo-blue bg-[#ddf4ff] ring-2 ring-duo-blue/40";
+            }
+
+            return (
+              <li key={option.id}>
+                <button
+                  type="button"
+                  onClick={() => onSelect(option)}
+                  disabled={solved}
+                  aria-pressed={selected}
+                  className={`w-full rounded-2xl border-2 border-b-4 px-4 py-3 text-left transition ${styles}`}
+                >
+                  <span className="block text-base font-extrabold text-ink">
+                    {option.french}
+                  </span>
+                  <span className="mt-0.5 block text-sm font-bold text-ink-muted">
+                    {option.english}
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+
+        {feedback ? (
           <p
-            className="mt-3 min-h-5 text-center text-sm text-amber-700"
+            className={`mb-3 rounded-2xl px-4 py-3 text-center text-sm font-extrabold ${
+              solved
+                ? "bg-[#d7ffb8] text-lingo-dark"
+                : "bg-[#ffdfe0] text-wrong-dark"
+            }`}
             role="status"
           >
-            {error}
+            {feedback}
           </p>
-        </>
-      ) : null}
-    </>
+        ) : null}
+
+        {!solved ? (
+          <button
+            type="button"
+            onClick={onCheck}
+            disabled={!selectedId}
+            className="btn-primary w-full"
+          >
+            Check
+          </button>
+        ) : null}
+      </div>
+    </div>
   );
 }

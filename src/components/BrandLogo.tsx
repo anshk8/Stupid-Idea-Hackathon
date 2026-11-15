@@ -8,7 +8,7 @@ type Props = {
   priority?: boolean;
 };
 
-export function BrandLogo({ size = 48, className = "", priority = false }: Props) {
+export function BrandLogo({ size = 72, className = "", priority = false }: Props) {
   return (
     <Image
       src="/swearlingo.png"

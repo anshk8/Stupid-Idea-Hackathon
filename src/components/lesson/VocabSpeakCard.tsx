@@ -38,106 +38,115 @@ export function VocabSpeakCard({
   onCheck,
 }: Props) {
   return (
-    <>
-      <p className="mb-4 text-center text-sm font-bold tracking-wide text-ink-muted uppercase">
-        How do you say this in French?
-      </p>
-
-      <p className="mb-5 text-center font-display text-3xl font-extrabold leading-tight text-ink md:text-4xl">
-        {phrase.englishPhrase}
-      </p>
-
-      <div className="mb-5 rounded-2xl bg-cream px-4 py-5 text-center">
-        <p className="mb-1 text-xs font-bold tracking-wide text-ink-muted uppercase">
-          French
+    <div className="grid gap-6 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] md:items-start md:gap-8">
+      <aside className="rounded-2xl border-2 border-edge bg-snow p-5 md:sticky md:top-4">
+        <p className="mb-2 text-xs font-extrabold tracking-[0.12em] text-ink-muted uppercase">
+          Pronunciation
         </p>
-        <p className="font-display text-2xl font-bold text-lingo-dark md:text-3xl">
+        <p className="mb-4 font-display text-2xl font-extrabold text-ink">
           {phrase.frenchTranslation}
         </p>
-      </div>
-
-      <HearPronunciationButton
-        speaking={speaking}
-        supported={supported}
-        disabled={listening}
-        onClick={onSpeak}
-        className="btn-speaker mx-auto flex"
-      />
-      <button
-        type="button"
-        onClick={() => window.alert("no")}
-        className="mx-auto mt-2 mb-6 block text-sm font-semibold text-ink-muted underline decoration-dotted underline-offset-4 hover:text-ink"
-      >
-        Slower please
-      </button>
-
-      <p
-        className={`mb-3 min-h-5 text-center text-sm ${
-          !supported ? "text-red-600" : "text-amber-700"
-        }`}
-        role={!supported ? "alert" : "status"}
-      >
-        {!supported
-          ? "French text-to-speech isn’t available here. Try Chrome or Safari."
-          : (error ?? "")}
-      </p>
-
-      <div className="mb-4 rounded-2xl border-2 border-ink/10 px-4 py-4 text-center">
-        <p className="mb-1 text-xs font-bold tracking-wide text-ink-muted uppercase">
-          Your spoken attempt
-        </p>
+        <HearPronunciationButton
+          speaking={speaking}
+          supported={supported}
+          disabled={listening}
+          onClick={onSpeak}
+        />
+        <button
+          type="button"
+          onClick={() => window.alert("no")}
+          className="mt-3 block text-sm font-extrabold text-duo-blue underline underline-offset-4"
+        >
+          Slower please
+        </button>
         <p
-          className={`font-display text-xl font-bold md:text-2xl ${
+          className={`mt-3 min-h-5 text-sm font-bold ${
+            !supported ? "text-wrong" : "text-[#ff9600]"
+          }`}
+          role={!supported ? "alert" : "status"}
+        >
+          {!supported
+            ? "Speech isn’t available here. Try Chrome or Safari."
+            : (error ?? "")}
+        </p>
+      </aside>
+
+      <div>
+        <p className="mb-2 text-sm font-extrabold tracking-[0.12em] text-ink-muted uppercase">
+          Say this in French
+        </p>
+        <p className="mb-5 text-3xl font-extrabold leading-tight text-ink">
+          {phrase.englishPhrase}
+        </p>
+
+        <div
+          className={`mb-4 rounded-2xl border-2 px-4 py-4 ${
             answerIsChecked
               ? checkedCorrect
-                ? "text-lingo-dark"
-                : "text-red-600"
-              : "text-ink"
+                ? "border-lingo bg-[#d7ffb8]"
+                : "border-wrong bg-[#ffdfe0]"
+              : "border-edge bg-white"
           }`}
         >
-          {hasSpokenAnswer
-            ? spokenText
-            : listening
-              ? "Listening…"
-              : "Tap speak, then say the French phrase."}
-        </p>
+          <p className="mb-1 text-xs font-extrabold tracking-[0.12em] text-ink-muted uppercase">
+            Your answer
+          </p>
+          <p
+            className={`text-xl font-extrabold ${
+              answerIsChecked
+                ? checkedCorrect
+                  ? "text-lingo-dark"
+                  : "text-wrong-dark"
+                : "text-ink"
+            }`}
+          >
+            {hasSpokenAnswer
+              ? spokenText
+              : listening
+                ? "Listening…"
+                : "Tap speak, then say the French phrase."}
+          </p>
+        </div>
+
+        {answerIsChecked && checkedResponse ? (
+          <p
+            className={`mb-4 text-center text-sm font-extrabold ${
+              checkedCorrect ? "text-lingo-dark" : "text-wrong-dark"
+            }`}
+            role="status"
+          >
+            {checkedResponse}
+          </p>
+        ) : null}
+
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <button
+            type="button"
+            onClick={onRecognize}
+            disabled={listening}
+            className="btn-secondary flex-1"
+          >
+            {listening ? "Listening…" : "Speak"}
+          </button>
+          <button
+            type="button"
+            onClick={onCheck}
+            disabled={!hasSpokenAnswer || listening}
+            className="btn-primary flex-1"
+          >
+            Check
+          </button>
+        </div>
+
+        {recognitionError ? (
+          <p
+            className="mt-3 text-center text-sm font-bold text-[#ff9600]"
+            role="alert"
+          >
+            {recognitionError}
+          </p>
+        ) : null}
       </div>
-
-      {answerIsChecked ? (
-        <p
-          className={`mb-4 text-center font-bold ${
-            checkedCorrect ? "text-lingo-dark" : "text-red-600"
-          }`}
-          role="status"
-        >
-          {checkedResponse}
-        </p>
-      ) : null}
-
-      <div className="flex flex-col gap-3 sm:flex-row">
-        <button
-          type="button"
-          onClick={onRecognize}
-          disabled={listening}
-          className="btn-secondary flex-1"
-        >
-          {listening ? "Listening…" : "🎙️ Speak it"}
-        </button>
-        <button
-          type="button"
-          onClick={onCheck}
-          disabled={!hasSpokenAnswer || listening}
-          className="btn-primary flex-1 disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          Check answer
-        </button>
-      </div>
-
-      {recognitionError ? (
-        <p className="mt-3 text-center text-sm text-amber-700" role="alert">
-          {recognitionError}
-        </p>
-      ) : null}
-    </>
+    </div>
   );
 }

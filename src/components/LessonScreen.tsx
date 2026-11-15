@@ -60,6 +60,20 @@ export function LessonScreen({
   const hasSpokenAnswer = spokenText?.phraseId === phrase.id;
   const answerIsChecked = checkedAnswer?.phraseId === phrase.id;
 
+  const correctAnswerResponses = [
+    "Wow 1/3 chance you just guessed but congrats I guess.",
+    "Thank god we can finally move on.",
+  ];
+
+  const incorrectAnswerResponses = [
+    "is you dumb?",
+    "bro lock in.",
+    "ok like are we even trying at this point?",
+    "somewhere a baguette is crying.",
+    "holey moley you're bad at french dawg.",
+    "you think i'm a joke huh? come back when you're ready to get serious chienne.",
+  ];
+
   useEffect(() => {
     cancel();
     cancelRecognition();
@@ -70,27 +84,29 @@ export function LessonScreen({
     setCheckedAnswer(null);
   }, [phrase.id, phrase.scenario, phrase.options, cancel, cancelRecognition]);
 
-  function handleOption(option: ScenarioOption) {
+  function pickRandom(responses: string[]) {
+    return responses[Math.floor(Math.random() * responses.length)];
+  }
+
+  function handleSelect(option: ScenarioOption) {
     if (solved) return;
     setSelectedId(option.id);
+    setFeedback(null);
+  }
 
-    const correctAnswerResponses = [
-      "Wow 1/3 chance you just guessed but congrats I guess.",
-      "Thank god we can finally move on.",
-    ];
+  function handleCheckScenario() {
+    if (!selectedId || solved) return;
+    const option = phrase.options?.find((o) => o.id === selectedId);
+    if (!option) return;
 
     if (option.tone === "mean") {
       setSolved(true);
-      setFeedback(
-        correctAnswerResponses[
-          Math.floor(Math.random() * correctAnswerResponses.length)
-        ],
-      );
+      setFeedback(pickRandom(correctAnswerResponses));
       speakFrench(phrase.frenchTranslation);
       return;
     }
 
-    setFeedback(null);
+    setFeedback(pickRandom(incorrectAnswerResponses));
   }
 
   async function handleRecognition() {
@@ -111,23 +127,10 @@ export function LessonScreen({
       normalizeAnswer(spokenText.text) ===
       normalizeAnswer(phrase.frenchTranslation);
 
-    const incorrectAnswerResponses = [
-      "is you dumb?",
-      "bro lock in.",
-      "ok like are we even trying at this point?",
-      "somewhere a baguette is crying.",
-      "holey moley you're bad at french dawg.",
-      "you think i'm a joke huh? come back when you're ready to get serious chienne.",
-    ];
-
     setCheckedAnswer({
       phraseId: phrase.id,
       correct,
-      response: correct
-        ? "Finally."
-        : incorrectAnswerResponses[
-            Math.floor(Math.random() * incorrectAnswerResponses.length)
-          ],
+      response: correct ? "Finally." : pickRandom(incorrectAnswerResponses),
     });
   }
 
@@ -137,7 +140,7 @@ export function LessonScreen({
   }
 
   return (
-    <main className="mx-auto flex min-h-svh w-full max-w-lg flex-col px-5 pt-6 md:pt-10">
+    <main className="mx-auto flex min-h-svh w-full max-w-5xl flex-col px-5 pt-3">
       <LessonHeader
         index={index}
         total={total}
@@ -145,7 +148,7 @@ export function LessonScreen({
         onHome={onHome}
       />
 
-      <article className="rounded-3xl border-2 border-ink/10 bg-white p-6 shadow-card md:p-8">
+      <article className="flex-1 pb-4">
         {isScenario ? (
           <ScenarioCard
             phrase={phrase}
@@ -155,7 +158,8 @@ export function LessonScreen({
             speaking={speaking}
             supported={supported}
             error={error}
-            onOption={handleOption}
+            onSelect={handleSelect}
+            onCheck={handleCheckScenario}
             onSpeak={toggleSpeak}
           />
         ) : (

@@ -11,101 +11,120 @@ type Props = {
 
 const JOURNEY_METRICS = [
   { label: "Current streak", value: "3 days" },
-  { label: "# of people learning more than you", value: "8,421,992" },
-  { label: "# of mess ups while learning", value: "67" },
+  { label: "People learning more than you", value: "8,421,992" },
+  { label: "Mess ups while learning", value: "67" },
   {
-    label: "Estimated days until fluency",
+    label: "Days until fluency",
     value: "∞",
-    note: "You're slower than most people. Not sure you'll make it to full fluency.",
+    note: "You're slower than most people. Not sure you'll make it.",
   },
 ];
 
 export function HomeScreen({ onStart }: Props) {
   return (
-    <main className="mx-auto flex min-h-svh w-full max-w-5xl flex-col px-5 py-8 md:py-12">
-      <header className="mb-8 flex flex-col items-center text-center md:mb-10 md:flex-row md:items-center md:gap-4 md:text-left">
-        <BrandLogo size={88} priority className="mb-3 md:mb-0" />
-        <div>
-          <h1 className="font-display text-4xl font-extrabold tracking-tight text-ink md:text-5xl">
-            SwearLingo
-          </h1>
-          <p className="mt-1 text-base text-ink-muted md:text-lg">
-            Profanity perfects Proficiency
-          </p>
+    <main className="mx-auto flex min-h-svh w-full max-w-5xl flex-col px-5 py-6">
+      <header className="mb-6 flex items-center justify-between gap-3 border-b-2 border-edge pb-4">
+        <div className="flex items-center gap-3">
+          <BrandLogo size={72} priority />
+          <div>
+            <p className="font-display text-2xl font-extrabold tracking-tight text-lingo md:text-3xl">
+              SwearLingo
+            </p>
+            <p className="text-sm font-bold text-ink-muted md:text-base">
+              Profanity perfects Proficiency
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3 text-sm font-extrabold">
+          <span className="text-[#ff9600]">🔥 3</span>
+          <span className="text-duo-blue">⚡ 0</span>
+          <span className="text-[#ff4b4b]">❤️ 5</span>
         </div>
       </header>
 
-      <section className="mb-6 rounded-3xl border-2 border-ink/10 bg-white p-5 shadow-card animate-fade-up md:mb-8 md:p-6">
-        <p className="mb-3 text-xs font-bold tracking-[0.18em] text-lingo-dark uppercase">
-          Highlight of today
-        </p>
-        <div className="flex items-center gap-4">
-          <Image
-            src="/jensen.png"
-            alt="Jensen Huang"
-            width={88}
-            height={88}
-            className="h-20 w-20 shrink-0 rounded-2xl object-cover object-top"
-          />
-          <div className="min-w-0">
-            <p className="font-display text-lg font-bold text-ink md:text-xl">
-              # of affairs Jensen Huang had this week:{" "}
-              <span className="text-lingo-dark">3 and counting…</span>
+      <div className="grid flex-1 gap-5 md:grid-cols-2 md:items-start">
+        <div className="flex flex-col gap-5">
+          <section className="rounded-2xl border-2 border-edge border-b-4 bg-white p-4">
+            <p className="mb-3 text-xs font-extrabold tracking-[0.14em] text-ink-muted uppercase">
+              Highlight of today
             </p>
-            <p className="mt-1 text-sm text-ink-muted">
-              Unrelated, but we thought you should know.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <div className="grid flex-1 gap-6 md:grid-cols-2 md:items-start lg:gap-8">
-        <section className="rounded-3xl border-2 border-ink/10 bg-white p-5 shadow-card animate-fade-up delay-100 md:p-6">
-          <h2 className="font-display text-2xl font-extrabold text-ink">
-            Your learning journey
-          </h2>
-
-          <ul className="mt-5 divide-y divide-ink/10">
-            {JOURNEY_METRICS.map((metric) => (
-              <li
-                key={metric.label}
-                className="flex items-baseline justify-between gap-4 py-4 first:pt-0 last:pb-0"
-              >
-                <div className="min-w-0">
-                  <p className="text-sm font-bold text-ink">{metric.label}</p>
-                  {"note" in metric && metric.note ? (
-                    <p className="mt-0.5 text-xs text-ink-muted">{metric.note}</p>
-                  ) : null}
-                </div>
-                <p className="shrink-0 font-display text-2xl font-extrabold tabular-nums text-lingo-dark">
-                  {metric.value}
+            <div className="flex items-center gap-3">
+              <Image
+                src="/jensen.png"
+                alt="Jensen Huang"
+                width={56}
+                height={56}
+                className="h-14 w-14 shrink-0 rounded-xl object-cover object-top"
+              />
+              <div className="min-w-0">
+                <p className="font-extrabold text-ink">
+                  Jensen Huang affairs this week:{" "}
+                  <span className="text-lingo-dark">3…</span>
                 </p>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <article className="rounded-3xl border-2 border-ink/10 bg-white p-6 shadow-card animate-fade-up delay-100 md:p-8">
-          <div className="mb-4 flex items-center gap-3">
-            <span className="text-4xl" aria-hidden>
-              🇫🇷
-            </span>
-            <div>
-              <h2 className="font-display text-2xl font-bold text-ink">
-                {LESSON_TITLE}
-              </h2>
-              <p className="mt-1 text-sm font-medium text-lingo">5 phrases</p>
+                <p className="mt-0.5 text-sm font-semibold text-ink-muted">
+                  Unrelated. We thought you should know.
+                </p>
+              </div>
             </div>
+          </section>
+
+          <section className="rounded-2xl border-2 border-edge border-b-4 bg-white p-4">
+            <p className="mb-1 text-xs font-extrabold tracking-[0.14em] text-ink-muted uppercase">
+              Your stats
+            </p>
+            <ul>
+              {JOURNEY_METRICS.map((metric) => (
+                <li
+                  key={metric.label}
+                  className="flex items-start justify-between gap-4 border-b-2 border-edge py-3 last:border-b-0 last:pb-0"
+                >
+                  <div className="min-w-0">
+                    <p className="text-sm font-bold text-ink">{metric.label}</p>
+                    {"note" in metric && metric.note ? (
+                      <p className="mt-0.5 text-xs font-semibold text-ink-muted">
+                        {metric.note}
+                      </p>
+                    ) : null}
+                  </div>
+                  <p className="shrink-0 font-display text-xl font-extrabold tabular-nums text-ink">
+                    {metric.value}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
+
+        <section className="overflow-hidden rounded-2xl border-2 border-edge border-b-4">
+          <div className="bg-lingo px-5 py-4 text-white">
+            <p className="text-xs font-extrabold tracking-[0.14em] uppercase opacity-90">
+              Section 1, Unit 1
+            </p>
+            <h1 className="mt-1 font-display text-2xl font-extrabold">
+              {LESSON_TITLE}
+            </h1>
+            <p className="mt-1 text-sm font-semibold text-white/90">
+              {LESSON_SUBTITLE}
+            </p>
           </div>
-
-          <p className="mb-6 text-base leading-relaxed text-ink-muted">
-            {LESSON_SUBTITLE}
-          </p>
-
-          <button type="button" onClick={onStart} className="btn-primary w-full">
-            Start Lesson →
-          </button>
-        </article>
+          <div className="flex flex-col items-center gap-4 bg-white px-5 py-8">
+            <div className="flex h-20 w-20 items-center justify-center rounded-full border-4 border-lingo bg-[#d7ffb8]">
+              <span className="text-4xl" aria-hidden>
+                🇫🇷
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={onStart}
+              className="btn-primary w-full max-w-xs"
+            >
+              Start
+            </button>
+            <p className="text-xs font-bold tracking-wide text-ink-muted uppercase">
+              5 phrases · ~3 min
+            </p>
+          </div>
+        </section>
       </div>
     </main>
   );

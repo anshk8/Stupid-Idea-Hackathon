@@ -11,33 +11,18 @@ type Props = {
 
 export function LessonHeader({ index, total, progress, onHome }: Props) {
   return (
-    <>
-      <header className="mb-6 flex items-center justify-between gap-3">
-        <div className="flex min-w-0 items-center gap-3">
-          <BrandLogo size={44} />
-          <div className="min-w-0">
-            <p className="font-display text-xl font-extrabold text-ink">
-              SwearLingo
-            </p>
-            <p className="text-sm text-ink-muted">🇫🇷 French Swearing 101</p>
-          </div>
-        </div>
-        <div className="flex shrink-0 items-center gap-2">
-          <p className="rounded-full bg-lingo/15 px-3 py-1 font-display text-sm font-bold text-lingo-dark">
-            {index + 1}/{total}
-          </p>
-          <button
-            type="button"
-            onClick={onHome}
-            className="rounded-full border-2 border-ink/10 bg-white px-3 py-1 font-display text-sm font-bold text-ink-muted transition hover:border-lingo hover:text-lingo-dark"
-          >
-            Menu
-          </button>
-        </div>
-      </header>
+    <header className="mb-6 flex items-center gap-3">
+      <button
+        type="button"
+        onClick={onHome}
+        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-2xl font-bold text-ink-muted transition hover:bg-snow"
+        aria-label="Close lesson"
+      >
+        ×
+      </button>
 
       <div
-        className="mb-6 h-3 w-full overflow-hidden rounded-full bg-ink/10"
+        className="h-4 flex-1 overflow-hidden rounded-full bg-edge"
         role="progressbar"
         aria-valuenow={index + 1}
         aria-valuemin={1}
@@ -49,6 +34,8 @@ export function LessonHeader({ index, total, progress, onHome }: Props) {
           style={{ width: `${progress}%` }}
         />
       </div>
-    </>
+
+      <BrandLogo size={56} className="shrink-0" />
+    </header>
   );
 }
