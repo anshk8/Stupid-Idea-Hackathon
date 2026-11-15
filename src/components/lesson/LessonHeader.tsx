@@ -1,5 +1,7 @@
 "use client";
 
+import { BrandLogo } from "@/components/BrandLogo";
+
 type Props = {
   index: number;
   total: number;
@@ -11,13 +13,16 @@ export function LessonHeader({ index, total, progress, onHome }: Props) {
   return (
     <>
       <header className="mb-6 flex items-center justify-between gap-3">
-        <div>
-          <p className="font-display text-xl font-extrabold text-ink">
-            SwearLingo
-          </p>
-          <p className="text-sm text-ink-muted">🇫🇷 French Swearing 101</p>
+        <div className="flex min-w-0 items-center gap-3">
+          <BrandLogo size={44} />
+          <div className="min-w-0">
+            <p className="font-display text-xl font-extrabold text-ink">
+              SwearLingo
+            </p>
+            <p className="text-sm text-ink-muted">🇫🇷 French Swearing 101</p>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           <p className="rounded-full bg-lingo/15 px-3 py-1 font-display text-sm font-bold text-lingo-dark">
             {index + 1}/{total}
           </p>

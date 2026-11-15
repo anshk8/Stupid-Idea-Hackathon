@@ -1,5 +1,7 @@
 "use client";
 
+import { BrandLogo } from "@/components/BrandLogo";
+
 type Props = {
   onRestart: () => void;
   onHome: () => void;
@@ -9,9 +11,7 @@ export function LessonComplete({ onRestart, onHome }: Props) {
   return (
     <main className="mx-auto flex min-h-full w-full max-w-lg flex-col items-center justify-center px-5 py-12">
       <div className="w-full rounded-3xl border-2 border-ink/10 bg-white p-8 text-center shadow-card animate-fade-up md:p-10">
-        <p className="mb-3 text-5xl" aria-hidden>
-          🎉
-        </p>
+        <BrandLogo size={96} className="mx-auto mb-4" />
         <h1 className="font-display text-4xl font-extrabold tracking-tight text-lingo-dark md:text-5xl">
           FÉLICITATIONS!
         </h1>

@@ -1,5 +1,8 @@
 "use client";
 
+import Image from "next/image";
+
+import { BrandLogo } from "@/components/BrandLogo";
 import { LESSON_SUBTITLE, LESSON_TITLE } from "@/data/lessons";
 
 type Props = {
@@ -9,32 +12,51 @@ type Props = {
 const JOURNEY_METRICS = [
   { label: "Current streak", value: "3 days" },
   { label: "# of people learning more than you", value: "8,421,992" },
-  { label: "# of mess ups while learning", value: "47" },
+  { label: "# of mess ups while learning", value: "67" },
+  {
+    label: "Estimated days until fluency",
+    value: "∞",
+    note: "You're slower than most people. Not sure you'll make it to full fluency.",
+  },
 ];
 
 export function HomeScreen({ onStart }: Props) {
   return (
     <main className="mx-auto flex min-h-full w-full max-w-5xl flex-col px-5 py-8 md:py-12">
-      <header className="mb-8 text-center md:mb-10 md:text-left">
-        <p className="mb-1 text-3xl md:hidden" aria-hidden>
-          🤬
-        </p>
-        <h1 className="font-display text-4xl font-extrabold tracking-tight text-ink md:text-5xl">
-          SwearLingo
-        </h1>
-        <p className="mt-1 text-base text-ink-muted md:text-lg">
-          Learn a new language by cussing!
-        </p>
+      <header className="mb-8 flex flex-col items-center text-center md:mb-10 md:flex-row md:items-center md:gap-4 md:text-left">
+        <BrandLogo size={88} priority className="mb-3 md:mb-0" />
+        <div>
+          <h1 className="font-display text-4xl font-extrabold tracking-tight text-ink md:text-5xl">
+            SwearLingo
+          </h1>
+          <p className="mt-1 text-base text-ink-muted md:text-lg">
+            Profanity perfects Proficiency
+          </p>
+        </div>
       </header>
 
       <section className="mb-6 rounded-3xl border-2 border-ink/10 bg-white p-5 shadow-card animate-fade-up md:mb-8 md:p-6">
-        <p className="mb-2 text-xs font-bold tracking-[0.18em] text-lingo-dark uppercase">
+        <p className="mb-3 text-xs font-bold tracking-[0.18em] text-lingo-dark uppercase">
           Highlight of today
         </p>
-        <p className="font-display text-lg font-bold text-ink md:text-xl">
-          # of affairs Jensen Huang had this week:{" "}
-          <span className="text-lingo-dark">3 and counting…</span>
-        </p>
+        <div className="flex items-center gap-4">
+          <Image
+            src="/jensen.png"
+            alt="Jensen Huang"
+            width={88}
+            height={88}
+            className="h-20 w-20 shrink-0 rounded-2xl object-cover object-top"
+          />
+          <div className="min-w-0">
+            <p className="font-display text-lg font-bold text-ink md:text-xl">
+              # of affairs Jensen Huang had this week:{" "}
+              <span className="text-lingo-dark">3 and counting…</span>
+            </p>
+            <p className="mt-1 text-sm text-ink-muted">
+              Unrelated, but we thought you should know.
+            </p>
+          </div>
+        </div>
       </section>
 
       <div className="grid flex-1 gap-6 md:grid-cols-2 md:items-start lg:gap-8">
@@ -49,9 +71,12 @@ export function HomeScreen({ onStart }: Props) {
                 key={metric.label}
                 className="flex items-baseline justify-between gap-4 py-4 first:pt-0 last:pb-0"
               >
-                <p className="min-w-0 text-sm font-bold text-ink">
-                  {metric.label}
-                </p>
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-ink">{metric.label}</p>
+                  {"note" in metric && metric.note ? (
+                    <p className="mt-0.5 text-xs text-ink-muted">{metric.note}</p>
+                  ) : null}
+                </div>
                 <p className="shrink-0 font-display text-2xl font-extrabold tabular-nums text-lingo-dark">
                   {metric.value}
                 </p>
@@ -69,9 +94,7 @@ export function HomeScreen({ onStart }: Props) {
               <h2 className="font-display text-2xl font-bold text-ink">
                 {LESSON_TITLE}
               </h2>
-              <p className="mt-1 text-sm font-medium text-lingo">
-                5 phrases
-              </p>
+              <p className="mt-1 text-sm font-medium text-lingo">5 phrases</p>
             </div>
           </div>
 

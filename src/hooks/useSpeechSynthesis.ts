@@ -78,8 +78,9 @@ export function useSpeechSynthesis() {
   }, []);
 
   const cancel = useCallback(() => {
-    if (typeof window === "undefined" || !window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
+    if (typeof window !== "undefined" && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
     setSpeaking(false);
   }, []);
 
