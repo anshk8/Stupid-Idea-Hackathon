@@ -15,7 +15,7 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "SwearLingo — Learn a new language by cussing!",
+  title: "SwearLingo | Learn a new language by cussing!",
   description:
     "A Duolingo-inspired app that teaches essential French swear phrases.",
 };

@@ -30,12 +30,19 @@ export default function Home() {
     setIndex((i) => Math.max(0, i - 1));
   }
 
+  function goHome() {
+    setScreen("home");
+    setIndex(0);
+  }
+
   if (screen === "home") {
     return <HomeScreen onStart={startLesson} />;
   }
 
   if (screen === "complete") {
-    return <LessonComplete onRestart={startLesson} />;
+    return (
+      <LessonComplete onRestart={startLesson} onHome={goHome} />
+    );
   }
 
   return (
@@ -45,6 +52,7 @@ export default function Home() {
       total={frenchLesson.length}
       onPrev={goPrev}
       onNext={goNext}
+      onHome={goHome}
     />
   );
 }

@@ -61,7 +61,7 @@ export function useSpeechSynthesis() {
       setVoicesReady(true);
       if (!pickFrenchVoice(synth.getVoices())) {
         setVoiceError(
-          "No French voice found — pronunciation may use a fallback accent.",
+          "No French voice found. Pronunciation may use a fallback accent.",
         );
       } else {
         setVoiceError(null);
@@ -90,7 +90,9 @@ export function useSpeechSynthesis() {
     }
 
     const synth = window.speechSynthesis;
+    // cancel() fires "interrupted"/"canceled" on the previous utterance — ignore those
     synth.cancel();
+    setSpeaking(false);
 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "fr-FR";
@@ -99,10 +101,14 @@ export function useSpeechSynthesis() {
     const voice = pickFrenchVoice(synth.getVoices());
     if (voice) utterance.voice = voice;
 
-    utterance.onstart = () => setSpeaking(true);
+    utterance.onstart = () => {
+      setSpeaking(true);
+      setVoiceError(null);
+    };
     utterance.onend = () => setSpeaking(false);
-    utterance.onerror = () => {
+    utterance.onerror = (event) => {
       setSpeaking(false);
+      if (event.error === "interrupted" || event.error === "canceled") return;
       setVoiceError("Couldn’t play pronunciation. Try again.");
     };
 

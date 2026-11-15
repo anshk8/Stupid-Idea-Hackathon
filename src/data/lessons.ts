@@ -1,7 +1,17 @@
+export type ScenarioOption = {
+  id: string;
+  french: string;
+  english: string;
+  tone: "nice" | "neutral" | "mean";
+};
+
 export type LessonPhrase = {
   id: number;
   englishPhrase: string;
   frenchTranslation: string;
+  /** Scenario cards include a prompt + 3 choices (mean = correct). */
+  scenario?: string;
+  options?: ScenarioOption[];
 };
 
 export const frenchLesson: LessonPhrase[] = [
@@ -9,6 +19,28 @@ export const frenchLesson: LessonPhrase[] = [
     id: 1,
     englishPhrase: "Fuck off!",
     frenchTranslation: "Va te faire foutre !",
+    scenario:
+      "You're in France ordering a macaron, and the person in front of you steps on your toe. What do you say?",
+    options: [
+      {
+        id: "a",
+        french: "Oh, excusez-moi, ça va ?",
+        english: "Oh, excuse me, are you alright?",
+        tone: "nice",
+      },
+      {
+        id: "b",
+        french: "Va te faire foutre !",
+        english: "Fuck off!",
+        tone: "mean",
+      },
+      {
+        id: "c",
+        french: "Faites attention où vous marchez.",
+        english: "Watch where you're going.",
+        tone: "neutral",
+      },
+    ],
   },
   {
     id: 2,
@@ -24,6 +56,28 @@ export const frenchLesson: LessonPhrase[] = [
     id: 4,
     englishPhrase: "Shut the fuck up!",
     frenchTranslation: "Ferme ta putain de gueule !",
+    scenario:
+      "A tourist keeps talking over you while you're asking for directions. What do you say?",
+    options: [
+      {
+        id: "a",
+        french: "Pardon, tu disais ?",
+        english: "Sorry, you were saying?",
+        tone: "nice",
+      },
+      {
+        id: "b",
+        french: "Tu peux attendre une seconde ?",
+        english: "Could you wait one second?",
+        tone: "neutral",
+      },
+      {
+        id: "c",
+        french: "Ferme ta putain de gueule !",
+        english: "Shut the fuck up!",
+        tone: "mean",
+      },
+    ],
   },
   {
     id: 5,

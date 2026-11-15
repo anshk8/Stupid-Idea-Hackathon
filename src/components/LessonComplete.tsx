@@ -2,9 +2,10 @@
 
 type Props = {
   onRestart: () => void;
+  onHome: () => void;
 };
 
-export function LessonComplete({ onRestart }: Props) {
+export function LessonComplete({ onRestart, onHome }: Props) {
   return (
     <main className="mx-auto flex min-h-full w-full max-w-lg flex-col items-center justify-center px-5 py-12">
       <div className="w-full rounded-3xl border-2 border-ink/10 bg-white p-8 text-center shadow-card animate-fade-up md:p-10">
@@ -18,30 +19,27 @@ export function LessonComplete({ onRestart }: Props) {
           You have completed French Swearing 101!
         </p>
 
-        <div className="my-8 grid grid-cols-2 gap-3">
-          <div className="rounded-2xl bg-lingo/15 px-3 py-4">
-            <p className="font-display text-2xl font-extrabold text-lingo-dark">
-              100%
-            </p>
-            <p className="text-xs font-bold tracking-wide text-ink-muted uppercase">
-              French Fluency
-            </p>
-          </div>
-          <div className="rounded-2xl bg-ink/5 px-3 py-4">
-            <p className="font-display text-2xl font-extrabold text-ink">0%</p>
-            <p className="text-xs font-bold tracking-wide text-ink-muted uppercase">
-              Diplomatic Skills
-            </p>
-          </div>
+        <div className="my-8 rounded-2xl bg-lingo/15 px-3 py-5">
+          <p className="font-display text-3xl font-extrabold text-lingo-dark">
+            100%
+          </p>
+          <p className="text-xs font-bold tracking-wide text-ink-muted uppercase">
+            French Fluency
+          </p>
         </div>
 
         <p className="mb-8 text-base leading-relaxed text-ink">
-          Congratulations! You&apos;re now fluent in offending people in French.
+          You finished the lesson. Go bother someone in French.
         </p>
 
-        <button type="button" onClick={onRestart} className="btn-primary w-full">
-          Restart Lesson
-        </button>
+        <div className="flex flex-col gap-3">
+          <button type="button" onClick={onRestart} className="btn-primary w-full">
+            Restart Lesson
+          </button>
+          <button type="button" onClick={onHome} className="btn-secondary w-full">
+            Main Menu
+          </button>
+        </div>
       </div>
     </main>
   );
