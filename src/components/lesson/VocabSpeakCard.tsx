@@ -61,8 +61,15 @@ export function VocabSpeakCard({
         supported={supported}
         disabled={listening}
         onClick={onSpeak}
-        className="btn-speaker mx-auto mb-6 flex"
+        className="btn-speaker mx-auto flex"
       />
+      <button
+        type="button"
+        onClick={() => window.alert("no")}
+        className="mx-auto mt-2 mb-6 block text-sm font-semibold text-ink-muted underline decoration-dotted underline-offset-4 hover:text-ink"
+      >
+        Slower please
+      </button>
 
       {error ? (
         <p className="mb-3 text-center text-sm text-amber-700" role="status">

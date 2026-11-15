@@ -74,9 +74,18 @@ export function LessonScreen({
     if (solved) return;
     setSelectedId(option.id);
 
+    const correctAnswerResponses = [
+      "Wow 1/3 chance you just guessed but congrats I guess.",
+      "Thank god we can finally move on.",
+    ];
+
     if (option.tone === "mean") {
       setSolved(true);
-      setFeedback("Correct!");
+      setFeedback(
+        correctAnswerResponses[
+          Math.floor(Math.random() * correctAnswerResponses.length)
+        ],
+      );
       speakFrench(phrase.frenchTranslation);
       return;
     }
@@ -102,10 +111,23 @@ export function LessonScreen({
       normalizeAnswer(spokenText.text) ===
       normalizeAnswer(phrase.frenchTranslation);
 
+    const incorrectAnswerResponses = [
+      "is you dumb?",
+      "bro lock in.",
+      "ok like are we even trying at this point?",
+      "somewhere a baguette is crying.",
+      "holey moley you're bad at french dawg.",
+      "you think i'm a joke huh? come back when you're ready to get serious chienne.",
+    ];
+
     setCheckedAnswer({
       phraseId: phrase.id,
       correct,
-      response: correct ? "Correct!" : "Not quite.",
+      response: correct
+        ? "Finally."
+        : incorrectAnswerResponses[
+            Math.floor(Math.random() * incorrectAnswerResponses.length)
+          ],
     });
   }
 
