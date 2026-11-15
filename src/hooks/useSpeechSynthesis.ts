@@ -33,6 +33,11 @@ function isSpeechSynthesisSupported() {
 }
 
 type SpeechRecognitionConstructor = new () => SpeechRecognition;
+type RecognitionLanguage = "french" | "english";
+const recognitionLocales: Record<RecognitionLanguage, string> = {
+  french: "fr-FR",
+  english: "en-US",
+};
 
 export function useSpeechSynthesis() {
   const supported = useSyncExternalStore(
@@ -115,85 +120,98 @@ export function useSpeechSynthesis() {
     synth.speak(utterance);
   }, []);
 
-  const recognizeFrench = useCallback((): Promise<string> => {
-    if (typeof window === "undefined") {
-      const message = "Speech recognition isn’t available in this browser.";
-      setRecognitionError(message);
-      return Promise.reject(new Error(message));
-    }
-
-    const speechWindow = window as Window & {
-      SpeechRecognition?: SpeechRecognitionConstructor;
-      webkitSpeechRecognition?: SpeechRecognitionConstructor;
-    };
-    const Recognition =
-      speechWindow.SpeechRecognition ?? speechWindow.webkitSpeechRecognition;
-
-    if (!Recognition) {
-      const message = "Speech recognition isn’t available in this browser.";
-      setRecognitionError(message);
-      return Promise.reject(new Error(message));
-    }
-
-    recognitionRef.current?.abort();
-    setRecognitionError(null);
-    setListening(true);
-
-    return new Promise((resolve, reject) => {
-      const recognition = new Recognition();
-      let transcript = "";
-      let settled = false;
-
-      const fail = (message: string) => {
-        if (settled) return;
-        settled = true;
-        recognitionRef.current = null;
-        setListening(false);
+  const recognizeSpeech = useCallback(
+    (language: RecognitionLanguage): Promise<string> => {
+      if (typeof window === "undefined") {
+        const message = "Speech recognition isn’t available in this browser.";
         setRecognitionError(message);
-        reject(new Error(message));
-      };
-
-      recognition.lang = "fr-FR";
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
-      recognition.onresult = (event) => {
-        transcript = Array.from(event.results)
-          .map((result) => result[0]?.transcript ?? "")
-          .join(" ")
-          .trim();
-      };
-      recognition.onerror = (event) => {
-        const message =
-          event.error === "not-allowed"
-            ? "Microphone access was denied. Allow microphone access and try again."
-            : event.error === "no-speech"
-              ? "No speech was detected. Try again."
-              : event.error === "aborted"
-                ? "Speech recognition was canceled."
-                : "Couldn’t recognize speech. Try again.";
-        fail(message);
-      };
-      recognition.onend = () => {
-        if (settled) return;
-        if (!transcript) {
-          fail("No speech was detected. Try again.");
-          return;
-        }
-
-        settled = true;
-        recognitionRef.current = null;
-        setListening(false);
-        resolve(transcript);
-      };
-
-      recognitionRef.current = recognition;
-      try {
-        recognition.start();
-      } catch {
-        fail("Couldn’t start speech recognition. Try again.");
+        return Promise.reject(new Error(message));
       }
-    });
-  }, []);
+
+      const speechWindow = window as Window & {
+        SpeechRecognition?: SpeechRecognitionConstructor;
+        webkitSpeechRecognition?: SpeechRecognitionConstructor;
+      };
+      const Recognition =
+        speechWindow.SpeechRecognition ?? speechWindow.webkitSpeechRecognition;
+
+      if (!Recognition) {
+        const message = "Speech recognition isn’t available in this browser.";
+        setRecognitionError(message);
+        return Promise.reject(new Error(message));
+      }
+
+      recognitionRef.current?.abort();
+      setRecognitionError(null);
+      setListening(true);
+
+      return new Promise((resolve, reject) => {
+        const recognition = new Recognition();
+        let transcript = "";
+        let settled = false;
+
+        const fail = (message: string) => {
+          if (settled) return;
+          settled = true;
+          recognitionRef.current = null;
+          setListening(false);
+          setRecognitionError(message);
+          reject(new Error(message));
+        };
+
+        recognition.lang = recognitionLocales[language];
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+        recognition.onresult = (event) => {
+          transcript = Array.from(event.results)
+            .map((result) => result[0]?.transcript ?? "")
+            .join(" ")
+            .trim();
+        };
+        recognition.onerror = (event) => {
+          const message =
+            event.error === "not-allowed"
+              ? "Microphone access was denied. Allow microphone access and try again."
+              : event.error === "no-speech"
+                ? "No speech was detected. Try again."
+                : event.error === "aborted"
+                  ? "Speech recognition was canceled."
+                  : "Couldn’t recognize speech. Try again.";
+          fail(message);
+        };
+        recognition.onend = () => {
+          if (settled) return;
+          if (!transcript) {
+            fail("No speech was detected. Try again.");
+            return;
+          }
+
+          settled = true;
+          recognitionRef.current = null;
+          setListening(false);
+          resolve(transcript);
+        };
+
+        recognitionRef.current = recognition;
+        try {
+          recognition.start();
+        } catch {
+          fail("Couldn’t start speech recognition. Try again.");
+        }
+      });
+    },
+    [],
+  );
+
+  const recognizeFrench = useCallback(
+    () => recognizeSpeech("french"),
+    [recognizeSpeech],
+  );
+
+  const recognizeEnglish = useCallback(
+    () => recognizeSpeech("english"),
+    [recognizeSpeech],
+  );
 
   const cancelRecognition = useCallback(() => {
     recognitionRef.current?.abort();
@@ -206,7 +224,9 @@ export function useSpeechSynthesis() {
     supported,
     voicesReady,
     error,
+    recognizeSpeech,
     recognizeFrench,
+    recognizeEnglish,
     cancelRecognition,
     listening,
     recognitionError,

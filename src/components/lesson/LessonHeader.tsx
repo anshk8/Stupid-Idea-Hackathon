@@ -26,7 +26,7 @@ export function LessonHeader({ index, total, progress, onHome }: Props) {
             onClick={onHome}
             className="rounded-full border-2 border-ink/10 bg-white px-3 py-1 font-display text-sm font-bold text-ink-muted transition hover:border-lingo hover:text-lingo-dark"
           >
-            Menu
+            Home
           </button>
         </div>
       </header>

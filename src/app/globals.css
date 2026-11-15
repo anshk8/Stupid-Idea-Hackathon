@@ -20,13 +20,18 @@
   --color-lingo-dark: var(--lingo-dark);
   --color-cream: var(--cream);
   --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-fredoka), var(--font-nunito), ui-sans-serif, sans-serif;
+  --font-display:
+    var(--font-fredoka), var(--font-nunito), ui-sans-serif, sans-serif;
   --shadow-card: var(--card-shadow);
 }
 
 body {
   background:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(88, 204, 2, 0.18), transparent),
+    radial-gradient(
+      ellipse 80% 50% at 50% -10%,
+      rgba(88, 204, 2, 0.18),
+      transparent
+    ),
     var(--background);
   color: var(--foreground);
   min-height: 100svh;
@@ -48,7 +53,9 @@ body {
   font-size: 1.125rem;
   padding: 0.9rem 1.25rem;
   border-bottom: 4px solid var(--lingo-dark);
-  transition: transform 120ms ease, filter 120ms ease;
+  transition:
+    transform 120ms ease,
+    filter 120ms ease;
 }
 
 .btn-primary:hover {
@@ -73,7 +80,9 @@ body {
   padding: 0.9rem 1.25rem;
   border: 2px solid rgba(26, 46, 5, 0.15);
   border-bottom-width: 4px;
-  transition: transform 120ms ease, background 120ms ease;
+  transition:
+    transform 120ms ease,
+    background 120ms ease;
 }
 
 .btn-secondary:hover:not(:disabled) {
@@ -98,7 +107,9 @@ body {
   color: white;
   padding: 1rem 1.5rem;
   border-bottom: 5px solid var(--lingo-dark);
-  transition: transform 120ms ease, filter 120ms ease;
+  transition:
+    transform 120ms ease,
+    filter 120ms ease;
 }
 
 .btn-speaker:hover:not(:disabled) {

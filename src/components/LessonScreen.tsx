@@ -34,6 +34,7 @@ export function LessonScreen({
     supported,
     error,
     recognizeFrench,
+    recognizeEnglish,
     cancelRecognition,
     listening,
     recognitionError,
@@ -99,6 +100,17 @@ export function LessonScreen({
     setCheckedAnswer(null);
     try {
       setSpokenText({ phraseId: phrase.id, text: await recognizeFrench() });
+    } catch {
+      // Hook exposes recognitionError for display.
+    }
+  }
+
+  async function handleEngRecognition() {
+    cancel();
+    setSpokenText(null);
+    setCheckedAnswer(null);
+    try {
+      setSpokenText({ phraseId: phrase.id, text: await recognizeEnglish() });
     } catch {
       // Hook exposes recognitionError for display.
     }
