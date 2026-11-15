@@ -20,6 +20,42 @@ const JOURNEY_METRICS = [
   },
 ];
 
+const COURSES = [
+  {
+    id: "fr",
+    section: "Section 1, Unit 1",
+    title: LESSON_TITLE,
+    subtitle: LESSON_SUBTITLE,
+    flag: "🇫🇷",
+    meta: "5 phrases · ~3 min",
+    headerClass: "bg-lingo",
+    ringClass: "border-lingo bg-[#d7ffb8]",
+    active: true,
+  },
+  {
+    id: "de",
+    section: "Section 1, Unit 1",
+    title: "German Swearing 101",
+    subtitle: "Essential insults for when politeness fails in Berlin.",
+    flag: "🇩🇪",
+    meta: "Coming soon",
+    headerClass: "bg-[#ce82ff]",
+    ringClass: "border-[#ce82ff] bg-[#f2dfff]",
+    active: false,
+  },
+  {
+    id: "ar",
+    section: "Section 1, Unit 1",
+    title: "Arabic Swearing 101",
+    subtitle: "Learn the phrases textbooks refuse to print.",
+    flag: "🇸🇦",
+    meta: "Coming soon",
+    headerClass: "bg-[#ff9600]",
+    ringClass: "border-[#ff9600] bg-[#fff0d4]",
+    active: false,
+  },
+] as const;
+
 export function HomeScreen({ onStart }: Props) {
   return (
     <main className="mx-auto flex min-h-svh w-full max-w-5xl flex-col px-5 py-6">
@@ -95,36 +131,56 @@ export function HomeScreen({ onStart }: Props) {
           </section>
         </div>
 
-        <section className="overflow-hidden rounded-2xl border-2 border-edge border-b-4">
-          <div className="bg-lingo px-5 py-4 text-white">
-            <p className="text-xs font-extrabold tracking-[0.14em] uppercase opacity-90">
-              Section 1, Unit 1
-            </p>
-            <h1 className="mt-1 font-display text-2xl font-extrabold">
-              {LESSON_TITLE}
-            </h1>
-            <p className="mt-1 text-sm font-semibold text-white/90">
-              {LESSON_SUBTITLE}
-            </p>
-          </div>
-          <div className="flex flex-col items-center gap-4 bg-white px-5 py-8">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full border-4 border-lingo bg-[#d7ffb8]">
-              <span className="text-4xl" aria-hidden>
-                🇫🇷
-              </span>
-            </div>
-            <button
-              type="button"
-              onClick={onStart}
-              className="btn-primary w-full max-w-xs"
+        <div className="flex flex-col gap-5">
+          {COURSES.map((course) => (
+            <section
+              key={course.id}
+              className="overflow-hidden rounded-2xl border-2 border-edge border-b-4"
             >
-              Start
-            </button>
-            <p className="text-xs font-bold tracking-wide text-ink-muted uppercase">
-              5 phrases · ~3 min
-            </p>
-          </div>
-        </section>
+              <div className={`${course.headerClass} px-5 py-4 text-white`}>
+                <p className="text-xs font-extrabold tracking-[0.14em] uppercase opacity-90">
+                  {course.section}
+                </p>
+                <h2 className="mt-1 font-display text-2xl font-extrabold">
+                  {course.title}
+                </h2>
+                <p className="mt-1 text-sm font-semibold text-white/90">
+                  {course.subtitle}
+                </p>
+              </div>
+              <div className="flex flex-col items-center gap-4 bg-white px-5 py-6">
+                <div
+                  className={`flex h-16 w-16 items-center justify-center rounded-full border-4 ${course.ringClass}`}
+                >
+                  <span className="text-3xl" aria-hidden>
+                    {course.flag}
+                  </span>
+                </div>
+                {course.active ? (
+                  <button
+                    type="button"
+                    onClick={onStart}
+                    className="btn-primary w-full max-w-xs"
+                  >
+                    Start
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    disabled
+                    className="btn-primary w-full max-w-xs"
+                    aria-disabled="true"
+                  >
+                    Start
+                  </button>
+                )}
+                <p className="text-xs font-bold tracking-wide text-ink-muted uppercase">
+                  {course.meta}
+                </p>
+              </div>
+            </section>
+          ))}
+        </div>
       </div>
     </main>
   );
