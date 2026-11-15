@@ -22,7 +22,7 @@ const JOURNEY_METRICS = [
 
 export function HomeScreen({ onStart }: Props) {
   return (
-    <main className="mx-auto flex min-h-full w-full max-w-5xl flex-col px-5 py-8 md:py-12">
+    <main className="mx-auto flex min-h-svh w-full max-w-5xl flex-col px-5 py-8 md:py-12">
       <header className="mb-8 flex flex-col items-center text-center md:mb-10 md:flex-row md:items-center md:gap-4 md:text-left">
         <BrandLogo size={88} priority className="mb-3 md:mb-0" />
         <div>

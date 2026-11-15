@@ -137,7 +137,7 @@ export function LessonScreen({
   }
 
   return (
-    <main className="mx-auto flex min-h-full w-full max-w-lg flex-col px-5 py-6 md:py-10">
+    <main className="mx-auto flex min-h-svh w-full max-w-lg flex-col px-5 pt-6 md:pt-10">
       <LessonHeader
         index={index}
         total={total}
@@ -145,48 +145,46 @@ export function LessonScreen({
         onHome={onHome}
       />
 
-      <section className="flex flex-1 flex-col">
-        <article className="rounded-3xl border-2 border-ink/10 bg-white p-6 shadow-card md:p-8">
-          {isScenario ? (
-            <ScenarioCard
-              phrase={phrase}
-              selectedId={selectedId}
-              solved={solved}
-              feedback={feedback}
-              speaking={speaking}
-              supported={supported}
-              error={error}
-              onOption={handleOption}
-              onSpeak={toggleSpeak}
-            />
-          ) : (
-            <VocabSpeakCard
-              phrase={phrase}
-              speaking={speaking}
-              supported={supported}
-              error={error}
-              listening={listening}
-              recognitionError={recognitionError}
-              hasSpokenAnswer={hasSpokenAnswer}
-              spokenText={hasSpokenAnswer ? spokenText.text : null}
-              answerIsChecked={answerIsChecked}
-              checkedCorrect={answerIsChecked ? checkedAnswer.correct : null}
-              checkedResponse={answerIsChecked ? checkedAnswer.response : null}
-              onSpeak={toggleSpeak}
-              onRecognize={handleRecognition}
-              onCheck={handleCheckAnswer}
-            />
-          )}
-        </article>
+      <article className="rounded-3xl border-2 border-ink/10 bg-white p-6 shadow-card md:p-8">
+        {isScenario ? (
+          <ScenarioCard
+            phrase={phrase}
+            selectedId={selectedId}
+            solved={solved}
+            feedback={feedback}
+            speaking={speaking}
+            supported={supported}
+            error={error}
+            onOption={handleOption}
+            onSpeak={toggleSpeak}
+          />
+        ) : (
+          <VocabSpeakCard
+            phrase={phrase}
+            speaking={speaking}
+            supported={supported}
+            error={error}
+            listening={listening}
+            recognitionError={recognitionError}
+            hasSpokenAnswer={hasSpokenAnswer}
+            spokenText={hasSpokenAnswer ? spokenText.text : null}
+            answerIsChecked={answerIsChecked}
+            checkedCorrect={answerIsChecked ? checkedAnswer.correct : null}
+            checkedResponse={answerIsChecked ? checkedAnswer.response : null}
+            onSpeak={toggleSpeak}
+            onRecognize={handleRecognition}
+            onCheck={handleCheckAnswer}
+          />
+        )}
+      </article>
 
-        <LessonNav
-          isFirst={isFirst}
-          isLast={index + 1 >= total}
-          canNext={solved}
-          onPrev={onPrev}
-          onNext={onNext}
-        />
-      </section>
+      <LessonNav
+        isFirst={isFirst}
+        isLast={index + 1 >= total}
+        canNext={solved}
+        onPrev={onPrev}
+        onNext={onNext}
+      />
     </main>
   );
 }

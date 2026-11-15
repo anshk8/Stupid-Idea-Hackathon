@@ -95,11 +95,12 @@ export function ScenarioCard({
             supported={supported}
             onClick={onSpeak}
           />
-          {error ? (
-            <p className="mt-3 text-center text-sm text-amber-700" role="status">
-              {error}
-            </p>
-          ) : null}
+          <p
+            className="mt-3 min-h-5 text-center text-sm text-amber-700"
+            role="status"
+          >
+            {error}
+          </p>
         </>
       ) : null}
     </>

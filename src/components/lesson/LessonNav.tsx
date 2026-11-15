@@ -16,7 +16,7 @@ export function LessonNav({
   onNext,
 }: Props) {
   return (
-    <div className="mt-auto flex gap-3 pt-8 pb-2">
+    <div className="mt-auto flex gap-3 pt-6 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
       <button
         type="button"
         onClick={onPrev}

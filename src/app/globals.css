@@ -24,6 +24,10 @@
   --shadow-card: var(--card-shadow);
 }
 
+html {
+  min-height: 100%;
+}
+
 body {
   background:
     radial-gradient(ellipse 80% 50% at 50% -10%, rgba(88, 204, 2, 0.18), transparent),
@@ -99,6 +103,8 @@ body {
   padding: 1rem 1.5rem;
   border-bottom: 5px solid var(--lingo-dark);
   transition: transform 120ms ease, filter 120ms ease;
+  /* Keep the green bottom edge from clipping when parents overflow */
+  overflow: visible;
 }
 
 .btn-speaker:hover:not(:disabled) {

@@ -71,16 +71,16 @@ export function VocabSpeakCard({
         Slower please
       </button>
 
-      {error ? (
-        <p className="mb-3 text-center text-sm text-amber-700" role="status">
-          {error}
-        </p>
-      ) : null}
-      {!supported ? (
-        <p className="mb-3 text-center text-sm text-red-600" role="alert">
-          French text-to-speech isn’t available here. Try Chrome or Safari.
-        </p>
-      ) : null}
+      <p
+        className={`mb-3 min-h-5 text-center text-sm ${
+          !supported ? "text-red-600" : "text-amber-700"
+        }`}
+        role={!supported ? "alert" : "status"}
+      >
+        {!supported
+          ? "French text-to-speech isn’t available here. Try Chrome or Safari."
+          : (error ?? "")}
+      </p>
 
       <div className="mb-4 rounded-2xl border-2 border-ink/10 px-4 py-4 text-center">
         <p className="mb-1 text-xs font-bold tracking-wide text-ink-muted uppercase">
